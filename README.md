@@ -1,5 +1,8 @@
 # GPT-2 - Treinamento do Zero
 
+<img width="1000" height="600" alt="train_an_val_loss" src="https://github.com/user-attachments/assets/eec009b4-d329-4e2d-a5db-83fab7772bda" />
+
+
 Implementação e treinamento de um modelo GPT-2 com 15 milhões de parâmetros, incluindo análise detalhada de complexidade computacional.
 
 ##  Índice
