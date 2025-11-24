@@ -144,7 +144,7 @@ python gpt2.py
 
 ### Especificações do Modelo e Hiperparâmetros
 
-| Componente               | Especificação        |
+| Componente               | Especificação      |
 |--------------------------|--------------------|
 | Parâmetros Totais        | 15.103.616         |
 | Camadas Transformer      | 4                  |
