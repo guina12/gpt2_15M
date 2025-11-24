@@ -51,7 +51,7 @@ tqdm>=4.65.0
 matplotlib>=3.7.0
 ```
 
-## 🚀 Instalação
+##  Instalação
 
 ### 1. Clone o Repositório
 
@@ -87,7 +87,7 @@ pip install -r requirements.txt
 python -c "import torch; print(f'CUDA disponível: {torch.cuda.is_available()}')"
 ```
 
-## ▶️ Como Executar
+##  Como Executar
 
 ### Ativação do Ambiente Virtual
 
@@ -132,7 +132,7 @@ Quando terminar:
 deactivate
 ```
 
-## 🏗️ Arquitetura do Modelo
+##  Arquitetura do Modelo
 
 ### Especificações
 
@@ -217,7 +217,7 @@ Sequências = 23.330.816 / 256 = 91.136
 Total FLOPs = 69,6 × 10⁹ × 91.136 = 6,34 × 10¹⁵ FLOPs
 ```
 
-## 📈 Métricas de Performance
+##  Métricas de Performance
 
 ### Performance de Treinamento
 
@@ -264,7 +264,7 @@ gpt2/
     └── training.log
 ```
 
-## 🐛 Solução de Problemas
+##  Solução de Problemas
 
 ### CUDA Out of Memory
 
@@ -298,7 +298,7 @@ Contribuições são bem-vindas! Por favor:
 4. Push para a branch (`git push origin feature/NovaFeature`)
 5. Abra um Pull Request
 
-## 📧 Contato
+##  Contato
 
 Para dúvidas ou sugestões, abra uma issue no GitHub.
 
