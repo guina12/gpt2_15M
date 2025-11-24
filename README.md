@@ -135,7 +135,7 @@ python gpt2.py
 ### Opções de Linha de Comando
 
 ```bash
-# Treinamento básico
+# Treinamento 
 python gpt2.py
 
 ##  Arquitetura do Modelo
@@ -144,23 +144,25 @@ python gpt2.py
 
 ### Especificações do Modelo e Hiperparâmetros
 
-| Componente               | Especificação      |
-|--------------------------|--------------------|
-| Parâmetros Totais        | 15.103.616         |
-| Camadas Transformer      | 4                  |
-| Dimensão de Embedding    | 256                |
-| Cabeças de Atenção       | 4                  |
-| Comprimento de Contexto  | 32 tokens          |
-| Tamanho do Vocabulário   | 50.304             |
-| Taxa de Dropout          | 0.7                |
-| Função de Ativação       | GELU               |
-| Batch Size               | 32                 |
-| Sequence Length          | 32                 |
-| Learning Rate            | 3e-4               |
-| Weight Decay             | 0.1                |
-| Beta1 (AdamW)            | 0.9                |
-| Beta2 (AdamW)            | 0.95               |
-| Gradient Clip Norm       | 1.0                |
+### Especificações do Modelo e Hiperparâmetros
+
+| Componente                | Especificação      |
+|---------------------------|------------------|
+| Parâmetros Totais         | 15.103.616       |
+| Camadas Transformer       | 4                |
+| Dimensão de Embedding     | 256              |
+| Cabeças de Atenção        | 4                |
+| Comprimento de Contexto   | 32 tokens        |
+| Tamanho do Vocabulário    | 50.304           |
+| Taxa de Dropout           | 0.7              |
+| Função de Ativação        | GELU             |
+| Batch Size                | 32               |
+| Sequence Length           | 32               |
+| Learning Rate             | 3e-4             |
+| Weight Decay              | 0.1              |
+| Beta1 (AdamW)             | 0.9              |
+| Beta2 (AdamW)             | 0.95             |
+| Gradient Clip Norm        | 1.0              |
 
 
 ### Componentes da Arquitetura
