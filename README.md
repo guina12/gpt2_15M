@@ -15,6 +15,11 @@
   </tr>
 </table>
 
+Texto Gerado pelo modelo após o treinamento
+
+<img width="729" height="779" alt="image" src="https://github.com/user-attachments/assets/d162ed0c-9015-4667-8195-21ac455ec6d4" />
+
+
 
 
 Implementação e treinamento de um modelo GPT-2 com 15 milhões de parâmetros, incluindo análise detalhada de complexidade computacional.
