@@ -135,18 +135,14 @@ python gpt2.py
 ### Opções de Linha de Comando
 
 ```bash
-# Treinamento 
+# Treinamento
+```bash
 python gpt2.py
+```
 
-##  Arquitetura do Modelo
+## Arquitetura do Modelo
 
-### Especificações
-
-### Especificações do Modelo e Hiperparâmetros
-
-# Especificações do Modelo
-
-## Arquitetura
+### Especificações do Modelo
 
 | Componente | Especificação |
 |---------------------------|------------------|
@@ -159,7 +155,7 @@ python gpt2.py
 | Taxa de Dropout | 0.7 |
 | Função de Ativação | GELU |
 
-## Hiperparâmetros de Treinamento
+### Hiperparâmetros de Treinamento
 
 | Parâmetro | Valor |
 |---------------------------|------------------|
@@ -171,43 +167,77 @@ python gpt2.py
 | Beta2 (AdamW) | 0.95 |
 | Gradient Clip Norm | 1.0 |
 
-
 ### Componentes da Arquitetura
 
-**Token Embedding**: 50.304 × 256 = 12.877.824 parâmetros
-
-**Positional Embedding**: 256 × 256 = 65.536 parâmetros
-
-**Blocos Transformer** (4 camadas):
-- Auto-atenção multi-cabeça com mascaramento causal
-- Rede feed-forward posicional (expansão 4×)
-- Normalização de camada
-- Conexões residuais
-
+| Componente | Dimensões | Parâmetros |
+|---------------------------|------------------|------------------|
+| Token Embedding | 50.304 × 256 | 12.877.824 |
+| Positional Embedding | 256 × 256 | 65.536 |
+| Blocos Transformer | 4 camadas | - |
+| Auto-atenção Multi-cabeça | 4 cabeças | Com mascaramento causal |
+| Rede Feed-Forward | Expansão 4× | Dimensão intermediária 1024 |
+| Normalização de Camada | Layer Norm | Após cada sub-camada |
+| Conexões Residuais | Skip connections | Em cada bloco |
 
 ### Dataset
 
-- **Conjunto de Treinamento**: 4M tokens
-- **Batches por Época**: 2.848
-- **Tokens por Época**: 23.330.816
+| Métrica | Valor |
+|---------------------------|------------------|
+| Conjunto de Treinamento | 4M tokens |
+| Batches por Época | 2.848 |
+| Tokens por Época | 23.330.816 |
 
-##  Análise de Complexidade
+## Análise de Complexidade
 
-### Complexidade de Tempo
+### Complexidade de Tempo por Camada
 
-Para um modelo Transformer com L camadas, dimensão d e comprimento de sequência n:
+| Operação | Complexidade | Descrição |
+|---------------------------|------------------|--------------------------------|
+| Projeções QKV | O(n × d²) | Query, Key, Value projections |
+| Computação de Atenção | O(n² × d) | Attention scores e aplicação |
+| Projeção de Saída | O(n × d²) | Output projection |
+| Feed-Forward Camada 1 | O(n × d × 4d) | Expansão para 4d |
+| Feed-Forward Camada 2 | O(n × 4d × d) | Redução para d |
+| **Total por Camada** | **O(n² × d + n × d²)** | Complexidade combinada |
 
-**Camada de Auto-Atenção**: O(n² × d)
-- Projeções Query, Key, Value: O(n × d²)
-- Computação de atenção: O(n² × d)
-- Projeção de saída: O(n × d²)
+### Complexidade do Modelo Completo
 
-**Rede Feed-Forward**: O(n × d²)
-- Duas transformações lineares com dimensão intermediária 4d
+| Componente | Fórmula | Valor (L=4, d=256, n=32) |
+|---------------------------|---------------------|--------------------------|
+| Auto-Atenção | L × n² × d | 4 × 1.024 × 256 |
+| Feed-Forward | L × n × d² | 4 × 32 × 65.536 |
+| **Total** | **L × (n² × d + n × d²)** | **≈ 9.4M operações** |
 
-**Total por Camada**: O(n² × d + n × d²)
+### Cálculo de FLOPs por Camada
 
-**Modelo Completo**: O(L × (n² × d + n × d²))
+| Componente | Operação | FLOPs |
+|---------------------------|----------------------|------------------|
+| Atenção (QKV) | 3 projeções lineares | 3 × n × d² |
+| Scores de Atenção | Multiplicação QK^T | n² × d |
+| Aplicação de Atenção | Multiplicação com V | n² × d |
+| Projeção de Saída | Projeção linear | n × d² |
+| Feed-Forward (1ª camada) | Linear expansion | n × d × 4d |
+| Feed-Forward (2ª camada) | Linear reduction | n × 4d × d |
+| **Total por Camada** | **Soma de todas** | **10n × d² + 2n² × d** |
+
+### FLOPs do Modelo Completo
+
+| Escopo | Cálculo | FLOPs |
+|---------------------------|--------------------------------|------------------|
+| Por Camada | 10n × d² + 2n² × d | ≈ 2.6M |
+| Modelo (4 camadas) | L × (10n × d² + 2n² × d) | ≈ 10.5M |
+| Por Token (forward) | FLOPs do modelo / batch | ≈ 10.5M |
+| Por Batch (32 tokens) | Batch size × FLOPs por token | ≈ 10.7B |
+| Por Época (2.848 batches) | Batches × FLOPs por batch | ≈ 30.5T |
+
+### Parâmetros por Tipo de Camada
+
+| Tipo de Camada | Quantidade | Parâmetros por Camada | Total |
+|---------------------------|------------|----------------------|--------------|
+| Token Embedding | 1 | 12.877.824 | 12.877.824 |
+| Positional Embedding | 1 | 65.536 | 65.536 |
+| Transformer Block | 4 | ≈ 540.000 | ≈ 2.160.000 |
+| **Total** | **-** | **-** | **15.103.616** |
 
 ### Cálculo de FLOPs
 
