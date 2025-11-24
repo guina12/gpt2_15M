@@ -1,6 +1,20 @@
 # GPT-2 - Treinamento do Zero
 
-<img width="1000" height="600" alt="train_an_val_loss" src="https://github.com/user-attachments/assets/eec009b4-d329-4e2d-a5db-83fab7772bda" />
+<table>
+  <tr>
+    <td align="center">
+      <img width="450" alt="train_and_val_loss_4M_32batch" src="https://github.com/user-attachments/assets/eec009b4-d329-4e2d-a5db-83fab7772bda" />
+      <br>
+      <b>Treino com 4 milhões de tokens — Batch size 32</b>
+    </td>
+    <td align="center">
+      <img width="450" alt="train_and_val_loss_10M_128batch" src="https://github.com/user-attachments/assets/67f69a86-fc1b-4c05-aba9-1fab6e6a9c46" />
+      <br>
+      <b>Treino com 10 milhões de tokens — Batch size 128</b>
+    </td>
+  </tr>
+</table>
+
 
 
 Implementação e treinamento de um modelo GPT-2 com 15 milhões de parâmetros, incluindo análise detalhada de complexidade computacional.
