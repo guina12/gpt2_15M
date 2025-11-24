@@ -44,7 +44,7 @@ Este projeto implementa uma arquitetura GPT-2 do zero usando PyTorch, focando no
 - **256 tokens** de comprimento de contexto
 - **Vocabulário** de 50.304 tokens
 
-## 💻 Requisitos do Sistema
+##  Requisitos do Sistema
 
 ### Hardware Mínimo
 
@@ -132,23 +132,6 @@ python gpt2.py
 # Treinamento básico
 python gpt2.py
 
-# Com configurações customizadas
-python gpt2.py --batch-size 64 --learning-rate 1e-4 --epochs 10
-
-# Continuar de um checkpoint
-python gpt2.py --resume checkpoint.pt
-
-# Modo de avaliação apenas
-python gpt2.py --eval-only --checkpoint model_final.pt
-```
-
-### Desativação do Ambiente Virtual
-
-Quando terminar:
-```bash
-deactivate
-```
-
 ##  Arquitetura do Modelo
 
 ### Especificações
@@ -176,7 +159,7 @@ deactivate
 - Normalização de camada
 - Conexões residuais
 
-## ⚙️ Configuração de Treinamento
+##  Configuração de Treinamento
 
 ### Hiperparâmetros
 
@@ -196,7 +179,7 @@ gradient_clip = 1.0
 - **Batches por Época**: 2.848
 - **Tokens por Época**: 23.330.816
 
-## 📊 Análise de Complexidade
+##  Análise de Complexidade
 
 ### Complexidade de Tempo
 
