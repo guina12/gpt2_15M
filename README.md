@@ -184,20 +184,6 @@ python gpt2.py
 - Normalização de camada
 - Conexões residuais
 
-##  Configuração de Treinamento
-
-### Hiperparâmetros
-
-```python
-batch_size = 32
-sequence_length = 32
-learning_rate = 3e-4
-weight_decay = 0.1
-beta1 = 0.9
-beta2 = 0.95
-gradient_clip_norm = 1.0
-
-```
 
 ### Dataset
 
