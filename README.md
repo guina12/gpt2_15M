@@ -1,50 +1,172 @@
-# GPT-2 Training from Scratch
+# GPT-2 - Treinamento do Zero
 
-Implementation and training of a GPT-2 model with 15 million parameters, including detailed computational complexity analysis.
+Implementação e treinamento de um modelo GPT-2 com 15 milhões de parâmetros, incluindo análise detalhada de complexidade computacional.
 
-## Overview
+##  Índice
 
-This project implements a GPT-2 architecture from scratch using PyTorch, focusing on understanding the computational requirements and optimization challenges of transformer-based language models. The implementation follows the original GPT-2 paper specifications with a reduced parameter count suitable for single-GPU training.
+- [Visão Geral](#visão-geral)
+- [Requisitos do Sistema](#requisitos-do-sistema)
+- [Instalação](#instalação)
+- [Como Executar](#como-executar)
+- [Arquitetura do Modelo](#arquitetura-do-modelo)
+- [Configuração de Treinamento](#configuração-de-treinamento)
+- [Análise de Complexidade](#análise-de-complexidade)
+- [Métricas de Performance](#métricas-de-performance)
+- [Estrutura do Projeto](#estrutura-do-projeto)
 
-## Model Architecture
+##  Visão Geral
 
-The model uses a decoder-only Transformer architecture with the following specifications:
+Este projeto implementa uma arquitetura GPT-2 do zero usando PyTorch, focando no entendimento dos requisitos computacionais e desafios de otimização de modelos de linguagem baseados em transformers. A implementação segue as especificações do paper original do GPT-2 com contagem reduzida de parâmetros adequada para treinamento em GPU única.
 
-| Component | Specification |
+### Características Principais
+
+- **15.103.616 parâmetros** totais
+- **4 camadas** de transformer
+- **256 dimensões** de embedding
+- **4 cabeças** de atenção
+- **256 tokens** de comprimento de contexto
+- **Vocabulário** de 50.304 tokens
+
+## 💻 Requisitos do Sistema
+
+### Hardware Mínimo
+
+- **GPU**: NVIDIA com pelo menos 6GB VRAM (testado em RTX 4050)
+- **RAM**: 16GB recomendado
+- **Armazenamento**: 5GB para dataset e checkpoints
+
+### Software
+
+- **Sistema Operacional**: Linux, Windows 10/11, ou macOS
+- **Python**: 3.8 ou superior
+- **CUDA**: 11.8 ou superior (para GPU NVIDIA)
+
+### Dependências Python
+
+```txt
+torch>=2.0.0
+numpy>=1.24.0
+tiktoken>=0.5.0
+tqdm>=4.65.0
+matplotlib>=3.7.0
+```
+
+## 🚀 Instalação
+
+### 1. Clone o Repositório
+
+```bash
+git clone https://github.com/seu-usuario/gpt2-from-scratch.git
+cd gpt2-from-scratch
+```
+
+### 2. Crie o Ambiente Virtual
+
+**No Linux/macOS:**
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+**No Windows:**
+```cmd
+python -m venv venv
+venv\Scripts\activate
+```
+
+### 3. Instale as Dependências
+
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+### 4. Verifique a Instalação do PyTorch com CUDA
+
+```bash
+python -c "import torch; print(f'CUDA disponível: {torch.cuda.is_available()}')"
+```
+
+## ▶️ Como Executar
+
+### Ativação do Ambiente Virtual
+
+Antes de executar o script, sempre ative o ambiente virtual:
+
+**Linux/macOS:**
+```bash
+source venv/bin/activate
+```
+
+**Windows:**
+```cmd
+venv\Scripts\activate
+```
+
+### Execução do Treinamento
+
+```bash
+python gpt2.py
+```
+
+### Opções de Linha de Comando
+
+```bash
+# Treinamento básico
+python gpt2.py
+
+# Com configurações customizadas
+python gpt2.py --batch-size 64 --learning-rate 1e-4 --epochs 10
+
+# Continuar de um checkpoint
+python gpt2.py --resume checkpoint.pt
+
+# Modo de avaliação apenas
+python gpt2.py --eval-only --checkpoint model_final.pt
+```
+
+### Desativação do Ambiente Virtual
+
+Quando terminar:
+```bash
+deactivate
+```
+
+## 🏗️ Arquitetura do Modelo
+
+### Especificações
+
+| Componente | Especificação |
 |-----------|--------------|
-| Total Parameters | 15,103,616 |
-| Transformer Layers | 4 |
-| Embedding Dimension | 256 |
-| Attention Heads | 4 |
-| Context Length | 256 tokens |
-| Vocabulary Size | 50,304 |
-| Dropout Rate | 0.7 |
-| Activation Function | GELU |
+| Parâmetros Totais | 15.103.616 |
+| Camadas Transformer | 4 |
+| Dimensão de Embedding | 256 |
+| Cabeças de Atenção | 4 |
+| Comprimento de Contexto | 256 tokens |
+| Tamanho do Vocabulário | 50.304 |
+| Taxa de Dropout | 0.7 |
+| Função de Ativação | GELU |
 
-### Architecture Components
+### Componentes da Arquitetura
 
-- **Token Embedding**: 50,304 × 256 = 12,877,824 parameters
-- **Positional Embedding**: 256 × 256 = 65,536 parameters
-- **Transformer Blocks** (4 layers):
-  - Multi-head self-attention with causal masking
-  - Position-wise feed-forward network (4× expansion)
-  - Layer normalization
-  - Residual connections
+**Token Embedding**: 50.304 × 256 = 12.877.824 parâmetros
 
-## Training Configuration
+**Positional Embedding**: 256 × 256 = 65.536 parâmetros
 
-### Hardware
+**Blocos Transformer** (4 camadas):
+- Auto-atenção multi-cabeça com mascaramento causal
+- Rede feed-forward posicional (expansão 4×)
+- Normalização de camada
+- Conexões residuais
 
-- **GPU**: NVIDIA GeForce RTX 4050
-- **Theoretical Performance**: 70 TFLOPS (FP16)
-- **VRAM**: 6GB GDDR6
+## ⚙️ Configuração de Treinamento
 
-### Hyperparameters
+### Hiperparâmetros
 
 ```python
 batch_size = 32
 sequence_length = 256
-learning_rate = 3e-4  # AdamW optimizer
+learning_rate = 3e-4  # Otimizador AdamW
 weight_decay = 0.1
 beta1 = 0.9
 beta2 = 0.95
@@ -53,72 +175,137 @@ gradient_clip = 1.0
 
 ### Dataset
 
-- **Training Set**: 4M tokens
-- **Batches per Epoch**: 2,848
-- **Tokens per Epoch**: 23,330,816
+- **Conjunto de Treinamento**: 4M tokens
+- **Batches por Época**: 2.848
+- **Tokens por Época**: 23.330.816
 
-## Computational Complexity Analysis
+## 📊 Análise de Complexidade
 
-### Time Complexity
+### Complexidade de Tempo
 
-For a Transformer model with L layers, dimension d, and sequence length n:
+Para um modelo Transformer com L camadas, dimensão d e comprimento de sequência n:
 
-**Self-Attention Layer**: O(n² × d)
-- Query, Key, Value projections: O(n × d²)
-- Attention computation: O(n² × d)
-- Output projection: O(n × d²)
+**Camada de Auto-Atenção**: O(n² × d)
+- Projeções Query, Key, Value: O(n × d²)
+- Computação de atenção: O(n² × d)
+- Projeção de saída: O(n × d²)
 
-**Feed-Forward Network**: O(n × d²)
-- Two linear transformations with intermediate dimension 4d
+**Rede Feed-Forward**: O(n × d²)
+- Duas transformações lineares com dimensão intermediária 4d
 
-**Total per Layer**: O(n² × d + n × d²)
+**Total por Camada**: O(n² × d + n × d²)
 
-**Complete Model**: O(L × (n² × d + n × d²))
+**Modelo Completo**: O(L × (n² × d + n × d²))
 
-### FLOPs Calculation
+### Cálculo de FLOPs
 
 **Forward Pass**:
 ```
-FLOPs = 6 × parameters × sequence_length
-FLOPs = 6 × 15,103,616 × 256
-FLOPs = 23.2 GFLOPs per sequence
+FLOPs = 6 × parâmetros × sequence_length
+FLOPs = 6 × 15.103.616 × 256
+FLOPs = 23,2 GFLOPs por sequência
 ```
 
-**Training (Forward + Backward)**:
+**Treinamento (Forward + Backward)**:
 ```
-FLOPs = 23.2 × 3 = 69.6 GFLOPs per sequence
-```
-
-**Per Epoch**:
-```
-Sequences = 23,330,816 / 256 = 91,136
-Total FLOPs = 69.6 × 10⁹ × 91,136 = 6.34 × 10¹⁵ FLOPs
+FLOPs = 23,2 × 3 = 69,6 GFLOPs por sequência
 ```
 
-## Performance Metrics
+**Por Época**:
+```
+Sequências = 23.330.816 / 256 = 91.136
+Total FLOPs = 69,6 × 10⁹ × 91.136 = 6,34 × 10¹⁵ FLOPs
+```
 
-### Training Performance
+## 📈 Métricas de Performance
 
-| Metric | Value |
+### Performance de Treinamento
+
+| Métrica | Valor |
 |--------|-------|
-| Tokens per Epoch | 23,330,816 |
-| Training Time | 37.5 min/epoch |
-| Throughput | 10,369 tokens/sec |
-| Sequences/sec | 40.5 |
-| Time per Batch | 0.79 seconds |
-| Effective FLOPs | 2.82 TFLOPS |
-| MFU (Model FLOPs Utilization) | 4.03% |
+| Tokens por Época | 23.330.816 |
+| Tempo de Treinamento | 37,5 min/época |
+| Throughput | 10.369 tokens/seg |
+| Sequências/seg | 40,5 |
+| Tempo por Batch | 0,79 segundos |
+| FLOPs Efetivos | 2,82 TFLOPS |
+| MFU (Utilização de FLOPs) | 4,03% |
 
-### Loss Curves
+### Curvas de Loss
 
-**Training Loss**:
-- Initial: 13.0
-- Final: 5.3
-- Reduction: 59.2%
+**Loss de Treinamento**:
+- Inicial: 13,0
+- Final: 5,3
+- Redução: 59,2%
 
-**Validation Loss**:
-- Initial: 13.0
-- Final: 9.4
-- Stabilization: ~9.0 after 40M tokens
+**Loss de Validação**:
+- Inicial: 13,0
+- Final: 9,4
+- Estabilização: ~9,0 após 40M tokens
 
-**Train-Validation Gap**:
+**Gap Treino-Validação**:
+- Indica leve overfitting após 40M tokens
+- Recomendado: early stopping ou aumento de regularização
+
+##  Estrutura do Projeto
+
+```
+gpt2/
+├── gpt2.py                 # Script principal
+├── requirements.txt        # Dependências
+├── README.md              # Este arquivo
+├── data/                  # Diretório de dados
+│   ├── train.txt
+│   └── val.txt
+├── checkpoints/           # Checkpoints do modelo
+│   ├── checkpoint_epoch_1.pt
+│   └── model_final.pt
+└── logs/                  # Logs de treinamento
+    └── training.log
+```
+
+## 🐛 Solução de Problemas
+
+### CUDA Out of Memory
+
+Se encontrar erros de memória:
+```python
+# Reduza o batch size
+batch_size = 16  # ou 8
+
+# Ou reduza o sequence length
+sequence_length = 128
+```
+
+### Performance Lenta
+
+1. Verifique se CUDA está disponível
+2. Use mixed precision training (FP16)
+3. Aumente o batch size se houver VRAM disponível
+4. Use gradient accumulation para batches maiores efetivos
+
+##  Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+
+##  Contribuições
+
+Contribuições são bem-vindas! Por favor:
+
+1. Faça fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/NovaFeature`)
+3. Commit suas mudanças (`git commit -m 'Adiciona nova feature'`)
+4. Push para a branch (`git push origin feature/NovaFeature`)
+5. Abra um Pull Request
+
+## 📧 Contato
+
+Para dúvidas ou sugestões, abra uma issue no GitHub.
+
+- OpenAI pelo paper original do GPT-2
+- Comunidade PyTorch
+- Andrej Karpathy pelos tutoriais de implementação
+
+---
+
+**Nota**: Este é um projeto educacional. Para aplicações em produção, considere usar implementações otimizadas como Hugging Face Transformers.
