@@ -23,7 +23,7 @@
 
 
 
-Implementação e treinamento de um modelo GPT-2 com 15 milhões de parâmetros, incluindo análise detalhada de complexidade computacional.
+#Implementação e treinamento de um modelo GPT-2 com 15 milhões de parâmetros, incluindo análise detalhada de complexidade computacional.
 
 ##  Índice
 
