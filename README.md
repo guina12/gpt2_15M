@@ -80,7 +80,7 @@ matplotlib>=3.7.0
 
 ```bash
 git clone https://github.com/seu-usuario/gpt2-from-scratch.git
-cd gpt2-from-scratch
+cd gpt2.py
 ```
 
 ### 2. Crie o Ambiente Virtual
@@ -142,16 +142,26 @@ python gpt2.py
 
 ### Especificações
 
-| Componente | Especificação |
-|-----------|--------------|
-| Parâmetros Totais | 15.103.616 |
-| Camadas Transformer | 4 |
-| Dimensão de Embedding | 256 |
-| Cabeças de Atenção | 4 |
-| Comprimento de Contexto | 256 tokens |
-| Tamanho do Vocabulário | 50.304 |
-| Taxa de Dropout | 0.7 |
-| Função de Ativação | GELU |
+### Especificações do Modelo e Hiperparâmetros
+
+| Componente               | Especificação        |
+|--------------------------|--------------------|
+| Parâmetros Totais        | 15.103.616         |
+| Camadas Transformer      | 4                  |
+| Dimensão de Embedding    | 256                |
+| Cabeças de Atenção       | 4                  |
+| Comprimento de Contexto  | 32 tokens          |
+| Tamanho do Vocabulário   | 50.304             |
+| Taxa de Dropout          | 0.7                |
+| Função de Ativação       | GELU               |
+| Batch Size               | 32                 |
+| Sequence Length          | 32                 |
+| Learning Rate            | 3e-4               |
+| Weight Decay             | 0.1                |
+| Beta1 (AdamW)            | 0.9                |
+| Beta2 (AdamW)            | 0.95               |
+| Gradient Clip Norm       | 1.0                |
+
 
 ### Componentes da Arquitetura
 
@@ -171,12 +181,13 @@ python gpt2.py
 
 ```python
 batch_size = 32
-sequence_length = 256
-learning_rate = 3e-4  # Otimizador AdamW
+sequence_length = 32
+learning_rate = 3e-4
 weight_decay = 0.1
 beta1 = 0.9
 beta2 = 0.95
-gradient_clip = 1.0
+gradient_clip_norm = 1.0
+
 ```
 
 ### Dataset
@@ -252,25 +263,7 @@ Total FLOPs = 69,6 × 10⁹ × 91.136 = 6,34 × 10¹⁵ FLOPs
 **Gap Treino-Validação**:
 - Indica leve overfitting após 40M tokens
 - Recomendado: early stopping ou aumento de regularização
-
-##  Estrutura do Projeto
-
-```
-gpt2/
-├── gpt2.py                 # Script principal
-├── requirements.txt        # Dependências
-├── README.md              # Este arquivo
-├── data/                  # Diretório de dados
-│   ├── train.txt
-│   └── val.txt
-├── checkpoints/           # Checkpoints do modelo
-│   ├── checkpoint_epoch_1.pt
-│   └── model_final.pt
-└── logs/                  # Logs de treinamento
-    └── training.log
-```
-
-##  Solução de Problemas
+- 
 
 ### CUDA Out of Memory
 
